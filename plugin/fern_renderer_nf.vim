@@ -16,7 +16,7 @@ if !exists('g:fern#renderer#nf#leading')
 endif
 
 if !exists('g:fern#renderer#nf#root_symbol')
-	let g:fern#renderer#nf#root_symbol = '  '
+	let g:fern#renderer#nf#root_symbol = '  '
 endif
 
 if !exists('g:fern#renderer#nf#default_leaf_symbol')
@@ -36,7 +36,7 @@ if !exists('g:fern#renderer#nf#branch_expanded_symlink_symbol')
 endif
 
 if !exists('g:fern#renderer#nf#branch_collapsed_symbol')
-	let g:fern#renderer#nf#branch_collapsed_symbol = '   '
+	let g:fern#renderer#nf#branch_collapsed_symbol = '   '
 endif
 
 if !exists('g:fern#renderer#nf#branch_expanded_symbol')
