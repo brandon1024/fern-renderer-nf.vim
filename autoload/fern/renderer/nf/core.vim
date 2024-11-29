@@ -59,4 +59,3 @@ function! s:render_line(...) abort
 
 	return { 'text': l:text, 'props': l:props }
 endfunction
-

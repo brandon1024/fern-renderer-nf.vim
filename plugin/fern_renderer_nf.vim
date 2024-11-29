@@ -20,7 +20,7 @@ if !exists('g:fern#renderer#nf#root_symbol')
 endif
 
 if !exists('g:fern#renderer#nf#default_leaf_symbol')
-	let g:fern#renderer#nf#default_leaf_symbol = '  '
+	let g:fern#renderer#nf#default_leaf_symbol = '  '
 endif
 
 if !exists('g:fern#renderer#nf#leaf_symlink_symbol')
@@ -61,6 +61,16 @@ if !exists('g:fern#renderer#nf#leaf_symbol_colors')
 		\ json_decode(join(readfile(g:fern#renderer#nf#symbol_colors_file)))
 endif
 
+if !exists('g:fern#renderer#nf#special_nodes')
+	let g:fern#renderer#nf#special_nodes = [
+		\ '.git',
+		\ '.gradle',
+		\ '.idea',
+		\ 'build',
+		\ '__init__.py',
+	\ ]
+endif
+
 " default highlights
 highlight default link FernLeaderSymbol      Directory
 highlight default link FernRootSymbol        Directory
@@ -74,6 +84,8 @@ highlight default link FernBranchSymlinkText  FernBranchText
 highlight default link FernLeafText           Normal
 highlight default link FernLeafSymlinkText    FernLeafText
 highlight default link FernLeafExecutableText FernLeafText
+
+highlight default link FernSpecialNode        Directory
 
 highlight default link FernLeafSymbolBlue   FernLeafSymbol
 highlight default link FernLeafSymbolGreen  FernLeafSymbol

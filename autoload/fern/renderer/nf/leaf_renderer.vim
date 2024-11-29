@@ -30,6 +30,8 @@ function! fern#renderer#nf#leaf_renderer#init() abort
 		\ s:build_prop('fern_renderer_leaf_symlink_text', 'FernLeafSymlinkText')
 	let l:options.prop_text_executable =
 		\ s:build_prop('fern_renderer_leaf_exe_text', 'FernLeafExecutableText')
+	let l:options.prop_special =
+		\ s:build_prop('fern_renderer_branch_special', 'FernSpecialNode')
 
 	return funcref('s:render', [l:options])
 endfunction
@@ -60,6 +62,8 @@ function! s:render_text(this, node) abort
 		\ a:this.prop_text_symlink : a:this.prop_text
 	let l:prop = s:is_executable(a:node) ?
 		\ a:this.prop_text_executable : l:prop
+	let l:prop = s:is_special(a:node) ?
+		\ a:this.prop_special : l:prop
 	let l:exe_marker = s:is_executable(a:node) ? '*' : ''
 
 	return {
@@ -82,6 +86,9 @@ function! s:get_symbol(this, node) abort
 		let l:prop = a:this.prop_symlink
 	endif
 
+	let l:prop = s:is_special(a:node) ?
+		\ a:this.prop_special : l:prop
+
 	return [l:symbol, l:prop]
 endfunction
 
@@ -93,3 +100,12 @@ function! s:is_executable(node) abort
 	return executable(a:node._path)
 endfunction
 
+function! s:is_special(node) abort
+	for key in a:node.__key
+		if index(g:fern#renderer#nf#special_nodes, key) >= 0
+			return v:true
+		endif
+	endfor
+
+	return v:false
+endfunction

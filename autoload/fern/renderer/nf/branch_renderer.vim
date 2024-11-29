@@ -23,6 +23,8 @@ function! fern#renderer#nf#branch_renderer#init() abort
 		\ s:build_prop('fern_renderer_branch_text', 'FernBranchText')
 	let l:options.prop_text_symlink =
 		\ s:build_prop('fern_renderer_branch_symlink_text', 'FernBranchSymlinkText')
+	let l:options.prop_special =
+		\ s:build_prop('fern_renderer_branch_special', 'FernSpecialNode')
 
 	return funcref('s:render', [l:options])
 endfunction
@@ -51,6 +53,7 @@ endfunction
 function! s:render_text(this, node) abort
 	let l:prop = s:is_symlink(a:node) ?
 		\ a:this.prop_text_symlink : a:this.prop_text
+	let l:prop = s:is_special(a:node) ? a:this.prop_special : l:prop
 
 	return { 'text': a:node.label . a:node.badge, 'type': l:prop }
 endfunction
@@ -58,7 +61,7 @@ endfunction
 function! s:get_symbol(this, node) abort
 	let l:symbol = a:node.status == g:fern#STATUS_COLLAPSED ?
 		\ a:this.symbol_collapsed : a:this.symbol_expanded
-	let l:prop = a:this.prop_symbol
+	let l:prop = s:is_special(a:node) ? a:this.prop_special : a:this.prop_symbol
 
 	if s:is_symlink(a:node)
 		let l:symbol = a:node.status == g:fern#STATUS_COLLAPSED ?
@@ -72,3 +75,12 @@ function! s:is_symlink(node) abort
 	return getftype(a:node._path) == 'link'
 endfunction
 
+function! s:is_special(node) abort
+	for key in a:node.__key
+		if index(g:fern#renderer#nf#special_nodes, key) >= 0
+			return v:true
+		endif
+	endfor
+
+	return v:false
+endfunction
